@@ -33,6 +33,9 @@ namespace LLMNpc.EditorTools
                 if (old != null) Object.DestroyImmediate(old);
             }
 
+            // 레거시 Text 용 기본 폰트 (없으면 "No Font Asset" 경고 + 글자 안 보임)
+            var legacyFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+
             // EventSystem (신규 Input System 이면 InputSystemUIInputModule, 아니면 Standalone)
             if (Object.FindFirstObjectByType<EventSystem>() == null)
             {
@@ -63,7 +66,7 @@ namespace LLMNpc.EditorTools
             dialogueGO.name = "DialogueText";
             Attach(dialogueGO, canvasGO, new Vector2(0, -300), new Vector2(1000, 150));
             var dialogueText = dialogueGO.GetComponent<Text>();
-            dialogueText.text = "..."; dialogueText.fontSize = 32;
+            dialogueText.text = "..."; dialogueText.fontSize = 32; dialogueText.font = legacyFont;
             dialogueText.color = Color.black; dialogueText.alignment = TextAnchor.UpperLeft;
 
             // Log text
@@ -71,7 +74,7 @@ namespace LLMNpc.EditorTools
             logGO.name = "LogText";
             Attach(logGO, canvasGO, new Vector2(-700, 40), new Vector2(460, 680));
             var logText = logGO.GetComponent<Text>();
-            logText.text = ""; logText.fontSize = 20;
+            logText.text = ""; logText.fontSize = 20; logText.font = legacyFont;
             logText.color = new Color(0.2f, 0.2f, 0.2f);
             logText.alignment = TextAnchor.LowerLeft;
 
@@ -80,9 +83,9 @@ namespace LLMNpc.EditorTools
             inputGO.name = "InputField";
             Attach(inputGO, canvasGO, new Vector2(-150, -450), new Vector2(760, 90));
             var inputField = inputGO.GetComponent<InputField>();
-            if (inputField.textComponent != null) inputField.textComponent.fontSize = 28;
+            if (inputField.textComponent != null) { inputField.textComponent.font = legacyFont; inputField.textComponent.fontSize = 28; }
             var ph = inputField.placeholder as Text;
-            if (ph != null) { ph.text = "메시지를 입력하세요..."; ph.fontSize = 26; }
+            if (ph != null) { ph.font = legacyFont; ph.text = "메시지를 입력하세요..."; ph.fontSize = 26; }
 
             // Send button
             var btnGO = DefaultControls.CreateButton(res);
@@ -90,7 +93,7 @@ namespace LLMNpc.EditorTools
             Attach(btnGO, canvasGO, new Vector2(360, -450), new Vector2(260, 90));
             var sendButton = btnGO.GetComponent<Button>();
             var btnLabel = btnGO.GetComponentInChildren<Text>();
-            if (btnLabel != null) { btnLabel.text = "전송"; btnLabel.fontSize = 32; }
+            if (btnLabel != null) { btnLabel.font = legacyFont; btnLabel.text = "전송"; btnLabel.fontSize = 32; }
 
             // Affection slider
             var sliderGO = DefaultControls.CreateSlider(res);
