@@ -38,3 +38,8 @@ Thumbs.db
 # 예시 파일(config.*.example.json)만 커밋하고, 실제 config.json 은 올리지 않는다.
 **/StreamingAssets/config.json
 **/StreamingAssets/config.json.meta
+
+# ===== 외부 캐릭터 에셋 (Sutemo 등) — 라이선스상 공개 재배포 금지 =====
+# 학생은 각자 Sutemo PSD를 받아 직접 추출/배치한다 (CREDITS.md 참고).
+*.psd
+**/Art/Characters/
