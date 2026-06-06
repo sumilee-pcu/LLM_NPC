@@ -6,6 +6,10 @@ namespace LLMNpc
     // 원시 API 응답 -> NPC 응답(JSON) 추출 -> 검증/클램프. 실패하면 안전한 폴백 대사.
     public static class ResponseProcessor
     {
+        // 13.11 화이트리스트: 허용된 행동만 통과 (그 외엔 none)
+        static readonly System.Collections.Generic.HashSet<string> AllowedActions =
+            new System.Collections.Generic.HashSet<string> { "none", "start_quest", "complete_quest", "give_gift", "leave" };
+
         public static NpcResponse Process(string rawApiJson)
         {
             try
@@ -29,6 +33,9 @@ namespace LLMNpc
                 if (string.IsNullOrEmpty(npc.emotion)) npc.emotion = "neutral";
                 // 길이 제한
                 if (npc.reply.Length > 200) npc.reply = npc.reply.Substring(0, 200);
+                // 행동 화이트리스트 검증
+                if (string.IsNullOrEmpty(npc.action) || !AllowedActions.Contains(npc.action))
+                    npc.action = "none";
 
                 return npc;
             }
@@ -48,6 +55,6 @@ namespace LLMNpc
         }
 
         static NpcResponse Fallback(string msg)
-            => new NpcResponse { reply = msg, emotion = "neutral", affection_delta = 0 };
+            => new NpcResponse { reply = msg, emotion = "neutral", affection_delta = 0, action = "none" };
     }
 }

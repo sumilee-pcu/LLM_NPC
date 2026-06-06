@@ -66,6 +66,7 @@ namespace LLMNpc
 
             // 상태는 '코드'가 적용 (13.8)
             state.ApplyAffection(npc.affection_delta);
+            ExecuteAction(npc.action);              // 13.11 NPC '제안' → 실행은 코드가 결정
             state.RecordTurn(playerText, npc.reply);
 
             // 출력 (13.12)
@@ -83,6 +84,21 @@ namespace LLMNpc
             // 엔딩 판정 (13.9)
             if (state.TurnCount >= endingTurn)
                 Debug.Log($"[Ending] {state.GetEnding()} (호감도 {state.Affection}, {state.TurnCount}턴)");
+        }
+
+        // 13.11/13.14 에이전트: NPC가 제안한 action 을 '게임 시스템'이 검증·실행한다.
+        void ExecuteAction(string action)
+        {
+            switch (action)
+            {
+                case "start_quest":    state.QuestStage = "퀘스트 진행 중"; break;
+                case "complete_quest": state.QuestStage = "퀘스트 완료"; state.ApplyAffection(5); break;
+                case "give_gift":      state.ApplyAffection(3); break;
+                case "leave":          break;
+                default:               return; // none → 아무것도 안 함
+            }
+            questStage = state.QuestStage; // 인스펙터 동기화 (다음 턴 덮어쓰기 방지)
+            Debug.Log($"[Action] {action} 실행 → 퀘스트:{state.QuestStage}, 호감도:{state.Affection}");
         }
 
         void OnLLMError(string err)

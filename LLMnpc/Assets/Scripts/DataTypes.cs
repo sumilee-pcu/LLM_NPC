@@ -67,6 +67,7 @@ namespace LLMNpc
         public string reply;
         public string emotion;       // neutral | happy | sad | angry | shy
         public int affection_delta;  // -5 ~ +5 (코드가 강제 클램프)
+        public string action;        // none|start_quest|complete_quest|give_gift|leave (NPC '제안', 실행은 코드가 결정)
     }
 
     // === 13.7 세이브: 단기 메모리(history) + 장기 상태(affection) ===

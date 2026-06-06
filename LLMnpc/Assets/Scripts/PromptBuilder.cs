@@ -51,8 +51,10 @@ namespace LLMNpc
             // --- 가드레일 + 구조화 출력 강제 (13.4-1, 13.11) ---
             sb.AppendLine("전연령 대화만 한다. 설정에 없는 정보는 지어내지 말고 모른다고 답한다.");
             sb.AppendLine("항상 1~2문장으로 짧게 답한다.");
+            sb.AppendLine("상황에 맞으면 행동을 '제안'할 수 있다(실제 실행은 게임이 결정). action 에 다음 중 하나, 없으면 none:");
+            sb.AppendLine("  none|start_quest|complete_quest|give_gift|leave");
             sb.AppendLine("반드시 아래 JSON 형식 '하나'로만 답한다. 그 외 텍스트/마크다운 금지:");
-            sb.AppendLine("{\"reply\":\"대사\",\"emotion\":\"neutral|happy|sad|angry|shy\",\"affection_delta\":정수(-5~5)}");
+            sb.AppendLine("{\"reply\":\"대사\",\"emotion\":\"neutral|happy|sad|angry|shy\",\"affection_delta\":정수(-5~5),\"action\":\"none|start_quest|complete_quest|give_gift|leave\"}");
 
             return sb.ToString();
         }
