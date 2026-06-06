@@ -34,6 +34,7 @@ namespace LLMNpc.EditorTools
         }
 
         void OnEnable() { Refresh(); }
+        void OnFocus() { Refresh(); Repaint(); }   // 창에 포커스될 때마다 현재 상태로 갱신
 
         void Refresh()
         {
