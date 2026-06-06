@@ -12,6 +12,10 @@ namespace LLMNpc
         public int TurnCount { get; private set; }
         public List<ChatMessage> History = new List<ChatMessage>();
 
+        // 13.4 검증된 게임 상태 (코드가 관리 → 프롬프트에 주입)
+        public string QuestStage = "퀘스트 시작 전"; // 예: 시작 전 / 진행 중 / 완료
+        public string Location = "학교 교실";
+
         public GameState(string personaId, int affection = 30)
         {
             PersonaId = personaId;
@@ -46,6 +50,8 @@ namespace LLMNpc
             persona_id = PersonaId,
             affection = Affection,
             turn_count = TurnCount,
+            quest_stage = QuestStage,
+            location = Location,
             history = History
         };
 
@@ -54,6 +60,8 @@ namespace LLMNpc
             return new GameState(d.persona_id, d.affection)
             {
                 TurnCount = d.turn_count,
+                QuestStage = string.IsNullOrEmpty(d.quest_stage) ? "퀘스트 시작 전" : d.quest_stage,
+                Location = string.IsNullOrEmpty(d.location) ? "학교 교실" : d.location,
                 History = d.history ?? new List<ChatMessage>()
             };
         }

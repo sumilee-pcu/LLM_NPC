@@ -44,6 +44,10 @@ namespace LLMNpc
             // --- 장기 상태 주입 (13.7) ---
             sb.AppendLine($"현재 호감도: {state.Affection}/100 (낮을수록 서먹, 높을수록 친밀).");
 
+            // --- 검증된 게임 상태 주입 (13.4) ---
+            sb.AppendLine($"현재 장소: {state.Location}. 퀘스트 상태: {state.QuestStage}.");
+            sb.AppendLine("퀘스트가 '시작 전'이면 퀘스트 관련 정보를 먼저 꺼내지 않는다. 현재 상태에 맞게 반응하라.");
+
             // --- 가드레일 + 구조화 출력 강제 (13.4-1, 13.11) ---
             sb.AppendLine("전연령 대화만 한다. 설정에 없는 정보는 지어내지 말고 모른다고 답한다.");
             sb.AppendLine("항상 1~2문장으로 짧게 답한다.");

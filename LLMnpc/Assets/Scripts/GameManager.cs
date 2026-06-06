@@ -17,6 +17,10 @@ namespace LLMNpc
         [SerializeField] int saveSlot = 0;
         [SerializeField] int endingTurn = 10; // 이 턴 수에 도달하면 엔딩 판정
 
+        [Header("월드 상태 (실습: 값 바꾸고 대화해보기)")]
+        [SerializeField] string questStage = "퀘스트 시작 전"; // 시작 전 / 진행 중 / 완료
+        [SerializeField] string location = "학교 교실";
+
         LLMConfig config;
         Persona persona;
         GameState state;
@@ -33,6 +37,7 @@ namespace LLMNpc
 
             // 3) 이어하기 or 새 게임
             state = SaveSystem.Load(saveSlot) ?? new GameState(persona.id);
+            state.QuestStage = questStage; state.Location = location; // 인스펙터 초기값 반영
 
             // 4) UI 초기화
             if (ui != null)
@@ -48,6 +53,7 @@ namespace LLMNpc
         {
             if (ui != null) { ui.ShowPlayerLine(text); ui.SetInteractable(false); }
 
+            state.QuestStage = questStage; state.Location = location; // 인스펙터 값 실시간 반영
             var messages = PromptBuilder.Build(persona, state, text, config.history_turns);
             StartCoroutine(llm.Send(config, messages,
                 raw => OnLLMResult(text, raw),
