@@ -1,0 +1,8 @@
+{
+  "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+  "api_key": "AIza...(Google AI Studio에서 발급한 키)",
+  "model": "gemini-2.5-flash",
+  "max_tokens": 300,
+  "temperature": 0.8,
+  "history_turns": 10
+}

@@ -14,7 +14,8 @@ LLM(대형 언어 모델)으로 움직이는 **대화형 NPC 시뮬레이터**�
 ## 1. 실행에 필요한 것
 - Unity 6.3 LTS (6000.3.x) — 프로젝트 폴더: `LLMnpc/`
 - 아래 둘 중 **하나**의 LLM 백엔드
-  - **클라우드 (Windows 학생 권장)**: OpenAI 등 API 키
+  - **클라우드 (Windows 학생 권장)**: **Gemini(무료, 추천)** 또는 OpenAI API 키
+    - Gemini 키 발급: [Google AI Studio](https://aistudio.google.com/apikey) → 무료, 신용카드 불필요
   - **로컬 (GPU 있는 PC)**: [LM Studio](https://lmstudio.ai/) 또는 Ollama
 
 ---
@@ -27,7 +28,8 @@ Unity Hub → `LLMnpc/` 폴더 열기.
 ### 2) 설정 파일 만들기 (API 키 입력)
 `LLMnpc/Assets/StreamingAssets/` 안에서:
 
-- **클라우드로 돌릴 때** → `config.cloud.example.json` 을 복사해 **`config.json`** 으로 이름 변경 후, `api_key` 에 본인 키 입력.
+- **Gemini로 돌릴 때 (무료, 추천)** → `config.gemini.example.json` 을 복사해 **`config.json`** 으로 이름 변경 후, `api_key` 에 [Google AI Studio](https://aistudio.google.com/apikey) 키 입력.
+- **OpenAI로 돌릴 때** → `config.cloud.example.json` 을 복사해 **`config.json`** 으로 이름 변경 후, `api_key` 에 본인 키 입력.
 - **로컬로 돌릴 때** → `config.local.example.json` 을 복사해 **`config.json`** 으로 이름 변경. (LM Studio에서 서버를 포트 1234로 켜기)
 
 ```json
