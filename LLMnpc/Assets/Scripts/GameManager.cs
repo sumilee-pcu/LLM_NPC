@@ -63,6 +63,7 @@ namespace LLMNpc
         void OnLLMResult(string playerText, string raw)
         {
             NpcResponse npc = ResponseProcessor.Process(raw);
+            Debug.Log($"[구조화출력] emotion={npc.emotion}, affection_delta={npc.affection_delta}, action={npc.action}");
 
             // 상태는 '코드'가 적용 (13.8)
             state.ApplyAffection(npc.affection_delta);
