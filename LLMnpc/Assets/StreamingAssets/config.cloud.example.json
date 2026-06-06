@@ -1,0 +1,8 @@
+{
+  "base_url": "https://api.openai.com/v1/chat/completions",
+  "api_key": "여기에-본인-API-키-입력",
+  "model": "gpt-4o-mini",
+  "max_tokens": 300,
+  "temperature": 0.8,
+  "history_turns": 10
+}

@@ -1,0 +1,40 @@
+# ===== Unity =====
+# 경로 어디에 있든 매칭되도록 슬래시 미고정 패턴 사용 (프로젝트가 LLMnpc/ 하위에 있음)
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# 자동 생성 파일
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Rider / VS / VSCode
+.idea/
+.vs/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ===== 비밀 / 실제 설정 (API 키 보호) =====
+# 예시 파일(config.*.example.json)만 커밋하고, 실제 config.json 은 올리지 않는다.
+**/StreamingAssets/config.json
+**/StreamingAssets/config.json.meta

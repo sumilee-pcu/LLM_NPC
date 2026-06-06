@@ -1,0 +1,10 @@
+{
+  "id": "yuna",
+  "name": "유나",
+  "role": "같은 과 동기",
+  "personality": "차분하고 살짝 츤데레. 관심 있어도 티를 잘 안 낸다.",
+  "speech_style": "반말, 짧은 문장",
+  "knows": ["학교 행사", "근처 카페", "동아리 활동"],
+  "never_reveals": ["다른 친구의 비밀", "교수님 개인정보"],
+  "relation_to_player": "아직 서먹한 사이"
+}
