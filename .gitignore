@@ -42,4 +42,5 @@ Thumbs.db
 # ===== 외부 캐릭터 에셋 (Sutemo 등) — 라이선스상 공개 재배포 금지 =====
 # 학생은 각자 Sutemo PSD를 받아 직접 추출/배치한다 (CREDITS.md 참고).
 *.psd
+*.zip
 **/Art/Characters/
