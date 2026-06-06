@@ -5,10 +5,14 @@
 
 ## 캐릭터 스프라이트
 - **Sutemo — Character Sprites for Visual Novel**
-  - Female: https://sutemo.itch.io/female-character
+  - Female (본 프로젝트 사용): https://sutemo.itch.io/female-character
   - Male: https://sutemo.itch.io/male-character-sprite-for-visual-novel
   - Character Creator(표정 일괄 export): https://yuripourre.itch.io/character-creator-sutemo
   - 라이선스: 개인·상업 사용 가능, 크레딧 표기 권장 (다운로드 페이지의 최신 약관 확인)
+
+> ⚠️ **재배포 금지 원칙**: Sutemo 원본/파생 이미지는 이 저장소에 포함하지 않습니다(.gitignore).
+> 각자 위 링크에서 PSD를 받아 `python tools/extract_yuna.py` 로 추출해 사용하세요.
+> (추출 스크립트는 코드일 뿐 이미지가 아니므로 배포 가능)
 
 ## 라이선스 주의
 - CC0 / CC-BY / Sutemo 약관 → 사용 가능 (CC-BY는 출처 표기 필수)

@@ -46,13 +46,22 @@ Unity Hub → `LLMnpc/` 폴더 열기.
 > ⚠️ `config.json` 은 `.gitignore` 에 등록되어 **GitHub에 올라가지 않습니다.** (키 보호)
 > 클라우드↔로컬 전환은 `base_url`/`api_key`/`model` 만 바꾸면 됩니다. **코드 수정 없음.**
 
-### 3) 캐릭터 에셋 넣기 (선택, 권장)
-무료 VN 스프라이트로 표정을 채웁니다.
-1. [Sutemo 무료 캐릭터 스프라이트](https://sutemo.itch.io/female-character) 다운로드 (상업 OK, 크레딧 권장)
-2. [Krita](https://krita.org)나 [Character Creator](https://yuripourre.itch.io/character-creator-sutemo)로 표정 **5종**(neutral/happy/sad/angry/shy)을 PNG로 export
-3. Unity에서 PNG들을 `Sprite (2D and UI)` 로 임포트
-4. 씬의 캐릭터 오브젝트 `PortraitController` 컴포넌트의 표정 슬롯에 각각 할당
-5. 사용한 에셋을 `CREDITS.md` 에 기록
+### 3) 캐릭터 에셋 넣기 (자동 매핑)
+캐릭터 이미지는 라이선스상 이 저장소에 포함하지 않습니다. **링크에서 직접 받아** 추출 스크립트를 한 번 돌리면, Unity가 자동으로 표정을 매핑합니다.
+
+1. [Sutemo 무료 캐릭터 스프라이트](https://sutemo.itch.io/female-character) 에서 **PSD 다운로드** (상업 OK, 크레딧 권장)
+2. 추출 스크립트 실행 (Python 필요):
+   ```bash
+   pip install -r tools/requirements.txt
+   python tools/extract_yuna.py "<다운로드한 PSD 경로>"
+   # 경로 생략 시 프로젝트 폴더/Downloads 에서 자동 탐색
+   ```
+   → `LLMnpc/Assets/Art/Characters/yuna/expr/` 에 표정 11종 PNG 생성
+3. Unity로 돌아오면 **자동으로 PortraitController 에 매핑**됩니다 (`YunaArtPostprocessor`).
+   - 안 되면: `Tools > LLM NPC > Expression Mapper` → **씬에 적용**
+4. 표정 조합을 바꾸려면 **Expression Mapper** 창에서 드롭다운으로 선택 → 적용 (코드 수정 불필요)
+
+> 표정 그림이 없어도 게임은 **플레이스홀더로 정상 작동**합니다(대화·호감도 OK). 그림은 위 단계로 나중에 채우면 됩니다.
 
 ### 4) 씬 구성 (UI 연결)
 `SampleScene` 에 Canvas를 만들고 아래를 배치 → 각 스크립트의 `[SerializeField]` 슬롯에 할당:
