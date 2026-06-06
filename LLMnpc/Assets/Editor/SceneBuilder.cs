@@ -26,9 +26,15 @@ namespace LLMNpc.EditorTools
                 mask       = Builtin("UI/Skin/UIMask.psd"),
             };
 
-            // EventSystem
+            // EventSystem (신규 Input System 이면 InputSystemUIInputModule, 아니면 Standalone)
             if (Object.FindFirstObjectByType<EventSystem>() == null)
-                new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+            {
+                var esGO = new GameObject("EventSystem", typeof(EventSystem));
+                var newModule = System.Type.GetType(
+                    "UnityEngine.InputSystem.UI.InputSystemUIInputModule, Unity.InputSystem");
+                if (newModule != null) esGO.AddComponent(newModule);
+                else esGO.AddComponent<StandaloneInputModule>();
+            }
 
             // Canvas
             var canvasGO = new GameObject("Canvas",
@@ -101,7 +107,7 @@ namespace LLMNpc.EditorTools
                 p("ui", dialogueUI); p("portrait", portraitController); p("llm", llm);
             });
 
-            var scene = EditorSceneManager.GetActiveScene();
+            var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveOpenScenes();
             Selection.activeGameObject = gameGO;
