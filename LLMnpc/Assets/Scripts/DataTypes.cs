@@ -78,7 +78,7 @@ namespace LLMNpc
         public int affection;
         public int turn_count;
         public string quest_stage = "퀘스트 시작 전";
-        public string location = "학교 교실";
+        public string location = "학교 앞";
         public List<ChatMessage> history = new List<ChatMessage>();
     }
 }

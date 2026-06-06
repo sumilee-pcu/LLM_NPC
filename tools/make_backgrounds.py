@@ -146,6 +146,65 @@ def park():
         d.rectangle([lx,by,lx+int(0.012*CW),by+int(0.08*CH)], fill=(120,86,60))
     finish(img, "bg_park.png")
 
+# ---------------- 노을 (방과후 캠퍼스) ----------------
+def sunset():
+    img = new_canvas(); d = ImageDraw.Draw(img)
+    horizon = int(CH*0.60)
+    vgradient(img, (255,168,118), (255,226,172), 0, horizon)
+    vgradient_box(d, 0, 0, CW, int(CH*0.24), (150,120,180), (255,168,118))
+    d.ellipse([int(CW*0.40),int(CH*0.32),int(CW*0.60),int(CH*0.32)+int(0.20*CW)], fill=(255,238,184))
+    d.rectangle([0,horizon,CW,CH], fill=(108,158,108))
+    bx0,bx1 = int(CW*0.30),int(CW*0.70); by0=int(CH*0.34)
+    d.polygon([(bx0-int(0.02*CW),by0),(bx1+int(0.02*CW),by0),(bx1,by0-int(0.05*CH)),(bx0,by0-int(0.05*CH))], fill=(95,80,100))
+    d.rectangle([bx0,by0,bx1,horizon], fill=(120,100,120))
+    for r in range(3):
+        for c in range(6):
+            wx=bx0+int((bx1-bx0)*(0.06+c*0.155)); wy=by0+int(0.05*CH)+r*int(0.07*CH)
+            d.rectangle([wx,wy,wx+int(0.05*CW),wy+int(0.04*CH)], fill=(255,224,150))
+    tree(d,int(CW*0.12),horizon+int(0.06*CH),140*SS,foliage=(92,118,92))
+    tree(d,int(CW*0.88),horizon+int(0.06*CH),140*SS,foliage=(92,118,92))
+    finish(img, "bg_sunset.png")
+
+# ---------------- 복도 ----------------
+def hallway():
+    img = new_canvas(); d = ImageDraw.Draw(img)
+    floor_y=int(CH*0.66)
+    d.rectangle([0,0,CW,CH], fill=(232,224,210))
+    d.rectangle([0,0,CW,int(0.05*CH)], fill=(220,212,198))
+    d.rectangle([0,floor_y,CW,CH], fill=(205,180,140))
+    d.rectangle([0,floor_y,CW,floor_y+int(0.012*CH)], fill=(150,120,80))
+    for k in range(4):  # 왼쪽 창문
+        x0=int(CW*0.04)+k*int(CW*0.115)
+        vgradient_box(d,x0,int(CH*0.12),x0+int(CW*0.09),floor_y-int(0.04*CH),(175,215,250),(225,242,255))
+        d.rectangle([x0,int(CH*0.12),x0+int(CW*0.09),floor_y-int(0.04*CH)], outline=(242,242,242), width=8*SS)
+    for k in range(5):  # 오른쪽 사물함
+        x0=int(CW*0.55)+k*int(CW*0.085)
+        col=[(150,190,220),(220,170,170),(200,210,160),(180,180,220),(220,200,160)][k%5]
+        d.rectangle([x0,int(CH*0.30),x0+int(CW*0.07),floor_y], fill=col, outline=(120,120,120), width=4*SS)
+        d.ellipse([x0+int(CW*0.052),int(CH*0.46),x0+int(CW*0.060),int(CH*0.475)], fill=(90,90,90))
+    finish(img, "bg_hallway.png")
+
+# ---------------- 카페 ----------------
+def cafe():
+    img = new_canvas(); d = ImageDraw.Draw(img)
+    floor_y=int(CH*0.66)
+    d.rectangle([0,0,CW,CH], fill=(238,222,202))
+    d.rectangle([0,floor_y,CW,CH], fill=(170,130,95))
+    wx0,wx1=int(CW*0.58),int(CW*0.94); wy0,wy1=int(CH*0.14),int(CH*0.50)
+    vgradient_box(d,wx0,wy0,wx1,wy1,(190,222,245),(235,245,235))
+    d.rectangle([wx0-10*SS,wy0-10*SS,wx1+10*SS,wy1+10*SS], outline=(120,90,70), width=12*SS)
+    d.line([((wx0+wx1)//2,wy0),((wx0+wx1)//2,wy1)], fill=(120,90,70), width=8*SS)
+    d.rectangle([int(CW*0.06),int(CH*0.40),int(CW*0.40),floor_y], fill=(140,100,72))
+    d.rectangle([int(CW*0.06),int(CH*0.40),int(CW*0.40),int(CH*0.44)], fill=(110,78,56))
+    for cx in [0.18,0.30,0.72,0.84]:
+        x=int(CW*cx); d.line([(x,0),(x,int(CH*0.12))], fill=(90,70,60), width=5*SS)
+        d.ellipse([x-int(0.02*CW),int(CH*0.12),x+int(0.02*CW),int(CH*0.17)], fill=(255,220,140))
+    for cx in [0.50,0.74]:
+        x=int(CW*cx); ty=int(CH*0.74)
+        d.ellipse([x-int(0.05*CW),ty,x+int(0.05*CW),ty+int(0.05*CH)], fill=(200,160,120))
+        d.rectangle([x-int(0.006*CW),ty+int(0.05*CH),x+int(0.006*CW),ty+int(0.12*CH)], fill=(150,110,80))
+    finish(img, "bg_cafe.png")
+
 if __name__ == "__main__":
-    campus(); classroom(); park()
+    campus(); classroom(); park(); sunset(); hallway(); cafe()
     print("done ->", OUT)

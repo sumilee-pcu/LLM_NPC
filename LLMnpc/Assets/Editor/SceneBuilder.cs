@@ -74,22 +74,22 @@ namespace LLMNpc.EditorTools
             bgImg.sprite = bgSprite; bgImg.type = Image.Type.Simple;
             bgImg.raycastTarget = false;
 
-            // Portrait (캐릭터 자리)
+            // Portrait (캐릭터 자리) — 미연시처럼 오른쪽 사이드 배치
             var portraitGO = DefaultControls.CreateImage(res);
             portraitGO.name = "Portrait";
-            Attach(portraitGO, canvasGO, new Vector2(0, 70), new Vector2(470, 590));
+            Attach(portraitGO, canvasGO, new Vector2(360, 30), new Vector2(540, 700));
             var portrait = portraitGO.GetComponent<Image>();
             portrait.sprite = res.standard;
             portrait.type = Image.Type.Sliced;
-            portrait.color = new Color(1f, 1f, 1f, 0.55f); // 플레이스홀더 (스프라이트 넣으면 흰색으로 바꾸세요)
+            portrait.color = new Color(1f, 1f, 1f, 0.55f); // 플레이스홀더 (스프라이트 넣으면 흰색으로 바뀜)
             Label(res, canvasGO, font, "캐릭터 이미지\n(여기에 표정 스프라이트)",
-                new Vector2(0, 70), new Vector2(420, 100), 24,
+                new Vector2(360, 60), new Vector2(420, 100), 24,
                 new Color(0.25f, 0.25f, 0.30f), TextAnchor.MiddleCenter);
 
-            // 로그 패널 (오른쪽)
-            Panel(res, canvasGO, new Vector2(690, 70), new Vector2(440, 590), PanelLt);
-            var logText = Label(res, canvasGO, font, "", new Vector2(690, 60), new Vector2(400, 560),
-                20, new Color(0.12f, 0.12f, 0.18f), TextAnchor.LowerLeft);
+            // 로그 패널 (왼쪽, 반투명 어둡게 — 이전 대화 표시)
+            Panel(res, canvasGO, new Vector2(-560, 80), new Vector2(380, 520), new Color(0f, 0f, 0f, 0.30f));
+            var logText = Label(res, canvasGO, font, "", new Vector2(-560, 70), new Vector2(340, 480),
+                20, new Color(0.95f, 0.95f, 0.98f), TextAnchor.LowerLeft);
             logText.gameObject.name = "LogText";
 
             // 호감도 라벨 + 게이지 (상단)
@@ -144,6 +144,7 @@ namespace LLMNpc.EditorTools
             var llm = gameGO.AddComponent<LLMClient>();
             var gm = gameGO.AddComponent<GameManager>();
             var portraitController = portraitGO.AddComponent<PortraitController>();
+            var bgCtrl = bg.AddComponent<BackgroundController>();
 
             // 참조 배선
             Wire(dialogueUI, p => {
@@ -152,7 +153,14 @@ namespace LLMNpc.EditorTools
                 p("affectionGauge", slider);
             });
             Wire(portraitController, p => p("portrait", portrait));
-            Wire(gm, p => { p("ui", dialogueUI); p("portrait", portraitController); p("llm", llm); });
+            Wire(bgCtrl, p => {
+                p("background", bgImg);
+                p("campus", LoadBgSprite("bg_campus"));   p("classroom", LoadBgSprite("bg_classroom"));
+                p("park", LoadBgSprite("bg_park"));       p("sunset", LoadBgSprite("bg_sunset"));
+                p("hallway", LoadBgSprite("bg_hallway")); p("cafe", LoadBgSprite("bg_cafe"));
+            });
+            Wire(gm, p => { p("ui", dialogueUI); p("portrait", portraitController);
+                            p("llm", llm); p("backgroundController", bgCtrl); });
 
             var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
             EditorSceneManager.MarkSceneDirty(scene);
@@ -202,6 +210,17 @@ namespace LLMNpc.EditorTools
         {
             var fill = sliderGO.transform.Find("Fill Area/Fill");
             if (fill != null) { var img = fill.GetComponent<Image>(); if (img != null) img.color = color; }
+        }
+
+        // Art/Generated 의 배경 PNG 를 Sprite 로 로드 (없으면 null)
+        static Sprite LoadBgSprite(string name)
+        {
+            string path = "Assets/Art/Generated/" + name + ".png";
+            var imp = AssetImporter.GetAtPath(path) as TextureImporter;
+            if (imp == null) return null;
+            if (imp.textureType != TextureImporterType.Sprite)
+            { imp.textureType = TextureImporterType.Sprite; imp.SaveAndReimport(); }
+            return AssetDatabase.LoadAssetAtPath<Sprite>(path);
         }
 
         // Art/Generated 의 배경 PNG 를 Sprite 로 로드 (없으면 그라데이션 폴백)

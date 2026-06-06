@@ -15,6 +15,9 @@ namespace LLMNpc.EditorTools
         [MenuItem("Tools/LLM NPC/Background/Campus (캠퍼스)")]    static void Campus()    => Set("bg_campus");
         [MenuItem("Tools/LLM NPC/Background/Classroom (교실)")]  static void Classroom() => Set("bg_classroom");
         [MenuItem("Tools/LLM NPC/Background/Park (공원)")]       static void Park()      => Set("bg_park");
+        [MenuItem("Tools/LLM NPC/Background/Sunset (노을)")]     static void Sunset()    => Set("bg_sunset");
+        [MenuItem("Tools/LLM NPC/Background/Hallway (복도)")]    static void Hallway()   => Set("bg_hallway");
+        [MenuItem("Tools/LLM NPC/Background/Cafe (카페)")]       static void Cafe()      => Set("bg_cafe");
         [MenuItem("Tools/LLM NPC/Background/Gradient (단색)")]   static void Gradient()  => Set("bg_gradient");
 
         static void Set(string name)

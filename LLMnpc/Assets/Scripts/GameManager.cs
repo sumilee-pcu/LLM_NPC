@@ -11,6 +11,7 @@ namespace LLMNpc
         [SerializeField] DialogueUI ui;
         [SerializeField] PortraitController portrait;
         [SerializeField] LLMClient llm;
+        [SerializeField] BackgroundController backgroundController;
 
         [Header("설정")]
         [SerializeField] string personaResourceName = "Personas/yuna"; // Resources 기준 경로(확장자 제외)
@@ -19,7 +20,7 @@ namespace LLMNpc
 
         [Header("월드 상태 (실습: 값 바꾸고 대화해보기)")]
         [SerializeField] string questStage = "퀘스트 시작 전"; // 시작 전 / 진행 중 / 완료
-        [SerializeField] string location = "학교 교실";
+        [SerializeField] string location = "학교 앞";
 
         LLMConfig config;
         Persona persona;
@@ -38,6 +39,7 @@ namespace LLMNpc
             // 3) 이어하기 or 새 게임
             state = SaveSystem.Load(saveSlot) ?? new GameState(persona.id);
             state.QuestStage = questStage; state.Location = location; // 인스펙터 초기값 반영
+            if (backgroundController != null) backgroundController.SetByLocation(location);
 
             // 4) UI 초기화
             if (ui != null)
@@ -54,6 +56,7 @@ namespace LLMNpc
             if (ui != null) { ui.ShowPlayerLine(text); ui.SetInteractable(false); }
 
             state.QuestStage = questStage; state.Location = location; // 인스펙터 값 실시간 반영
+            if (backgroundController != null) backgroundController.SetByLocation(location); // 장소→배경 자동 전환
             var messages = PromptBuilder.Build(persona, state, text, config.history_turns);
             StartCoroutine(llm.Send(config, messages,
                 raw => OnLLMResult(text, raw),

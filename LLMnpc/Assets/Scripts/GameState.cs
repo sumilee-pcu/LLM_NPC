@@ -14,7 +14,7 @@ namespace LLMNpc
 
         // 13.4 검증된 게임 상태 (코드가 관리 → 프롬프트에 주입)
         public string QuestStage = "퀘스트 시작 전"; // 예: 시작 전 / 진행 중 / 완료
-        public string Location = "학교 교실";
+        public string Location = "학교 앞";
 
         public GameState(string personaId, int affection = 30)
         {
@@ -61,7 +61,7 @@ namespace LLMNpc
             {
                 TurnCount = d.turn_count,
                 QuestStage = string.IsNullOrEmpty(d.quest_stage) ? "퀘스트 시작 전" : d.quest_stage,
-                Location = string.IsNullOrEmpty(d.location) ? "학교 교실" : d.location,
+                Location = string.IsNullOrEmpty(d.location) ? "학교 앞" : d.location,
                 History = d.history ?? new List<ChatMessage>()
             };
         }
