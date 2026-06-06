@@ -26,6 +26,13 @@ namespace LLMNpc.EditorTools
                 mask       = Builtin("UI/Skin/UIMask.psd"),
             };
 
+            // 재실행 시 중복 방지: 기존 생성물 제거 (카메라/라이트는 보존)
+            foreach (var n in new[] { "Canvas", "Game", "EventSystem" })
+            {
+                var old = GameObject.Find(n);
+                if (old != null) Object.DestroyImmediate(old);
+            }
+
             // EventSystem (신규 Input System 이면 InputSystemUIInputModule, 아니면 Standalone)
             if (Object.FindFirstObjectByType<EventSystem>() == null)
             {
@@ -48,44 +55,47 @@ namespace LLMNpc.EditorTools
             // Portrait
             var portraitGO = DefaultControls.CreateImage(res);
             portraitGO.name = "Portrait";
-            Attach(portraitGO, canvasGO, new Vector2(0, 120), new Vector2(500, 600));
+            Attach(portraitGO, canvasGO, new Vector2(0, 90), new Vector2(460, 560));
             var portrait = portraitGO.GetComponent<Image>();
 
             // Dialogue text
             var dialogueGO = DefaultControls.CreateText(res);
             dialogueGO.name = "DialogueText";
-            Attach(dialogueGO, canvasGO, new Vector2(0, -260), new Vector2(900, 120));
+            Attach(dialogueGO, canvasGO, new Vector2(0, -300), new Vector2(1000, 150));
             var dialogueText = dialogueGO.GetComponent<Text>();
-            dialogueText.text = "..."; dialogueText.fontSize = 28;
+            dialogueText.text = "..."; dialogueText.fontSize = 32;
             dialogueText.color = Color.black; dialogueText.alignment = TextAnchor.UpperLeft;
 
             // Log text
             var logGO = DefaultControls.CreateText(res);
             logGO.name = "LogText";
-            Attach(logGO, canvasGO, new Vector2(-680, 0), new Vector2(500, 700));
+            Attach(logGO, canvasGO, new Vector2(-700, 40), new Vector2(460, 680));
             var logText = logGO.GetComponent<Text>();
-            logText.text = ""; logText.fontSize = 18;
+            logText.text = ""; logText.fontSize = 20;
             logText.color = new Color(0.2f, 0.2f, 0.2f);
             logText.alignment = TextAnchor.LowerLeft;
 
             // InputField
             var inputGO = DefaultControls.CreateInputField(res);
             inputGO.name = "InputField";
-            Attach(inputGO, canvasGO, new Vector2(-120, -420), new Vector2(700, 60));
+            Attach(inputGO, canvasGO, new Vector2(-150, -450), new Vector2(760, 90));
             var inputField = inputGO.GetComponent<InputField>();
+            if (inputField.textComponent != null) inputField.textComponent.fontSize = 28;
+            var ph = inputField.placeholder as Text;
+            if (ph != null) { ph.text = "메시지를 입력하세요..."; ph.fontSize = 26; }
 
             // Send button
             var btnGO = DefaultControls.CreateButton(res);
             btnGO.name = "SendButton";
-            Attach(btnGO, canvasGO, new Vector2(320, -420), new Vector2(160, 60));
+            Attach(btnGO, canvasGO, new Vector2(360, -450), new Vector2(260, 90));
             var sendButton = btnGO.GetComponent<Button>();
             var btnLabel = btnGO.GetComponentInChildren<Text>();
-            if (btnLabel != null) btnLabel.text = "전송";
+            if (btnLabel != null) { btnLabel.text = "전송"; btnLabel.fontSize = 32; }
 
             // Affection slider
             var sliderGO = DefaultControls.CreateSlider(res);
             sliderGO.name = "AffectionGauge";
-            Attach(sliderGO, canvasGO, new Vector2(0, 440), new Vector2(600, 30));
+            Attach(sliderGO, canvasGO, new Vector2(0, 450), new Vector2(640, 40));
             var slider = sliderGO.GetComponent<Slider>();
             slider.minValue = 0; slider.maxValue = 100; slider.wholeNumbers = true; slider.value = 30;
 
