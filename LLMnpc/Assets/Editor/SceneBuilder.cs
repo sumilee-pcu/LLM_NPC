@@ -43,7 +43,7 @@ namespace LLMNpc.EditorTools
             }
 
             var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            var bgSprite = MakeGradientSprite(GradTop, GradBot);
+            var bgSprite = LoadBgOrGradient("bg_campus"); // 기본 배경 = 캠퍼스 (없으면 그라데이션)
 
             // EventSystem
             if (Object.FindFirstObjectByType<EventSystem>() == null)
@@ -202,6 +202,21 @@ namespace LLMNpc.EditorTools
         {
             var fill = sliderGO.transform.Find("Fill Area/Fill");
             if (fill != null) { var img = fill.GetComponent<Image>(); if (img != null) img.color = color; }
+        }
+
+        // Art/Generated 의 배경 PNG 를 Sprite 로 로드 (없으면 그라데이션 폴백)
+        static Sprite LoadBgOrGradient(string name)
+        {
+            string path = "Assets/Art/Generated/" + name + ".png";
+            var imp = AssetImporter.GetAtPath(path) as TextureImporter;
+            if (imp != null)
+            {
+                if (imp.textureType != TextureImporterType.Sprite)
+                { imp.textureType = TextureImporterType.Sprite; imp.SaveAndReimport(); }
+                var sp = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+                if (sp != null) return sp;
+            }
+            return MakeGradientSprite(GradTop, GradBot);
         }
 
         // 세로 그라데이션 PNG 를 만들어 Assets 에 저장하고 Sprite 로 반환
