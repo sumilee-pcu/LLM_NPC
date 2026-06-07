@@ -89,6 +89,9 @@ namespace LLMNpc.EditorTools
             var pRim = portraitGO.AddComponent<Outline>();
             pRim.effectColor = new Color(1f, 0.97f, 0.90f, 0.40f);
             pRim.effectDistance = new Vector2(3, 3);
+            // 등장/idle/팝 애니메이션
+            var pCanvasGroup = portraitGO.AddComponent<CanvasGroup>();
+            var pAnim = portraitGO.AddComponent<PortraitAnimator>();
             Label(res, canvasGO, font, "캐릭터 이미지\n(여기에 표정 스프라이트)",
                 new Vector2(360, 60), new Vector2(420, 100), 24,
                 new Color(0.25f, 0.25f, 0.30f), TextAnchor.MiddleCenter);
@@ -160,6 +163,7 @@ namespace LLMNpc.EditorTools
                 p("affectionGauge", slider);
             });
             Wire(portraitController, p => p("portrait", portrait));
+            Wire(pAnim, p => p("canvasGroup", pCanvasGroup));
             Wire(bgCtrl, p => {
                 p("background", bgImg);
                 p("campus", LoadBgSprite("bg_campus"));   p("classroom", LoadBgSprite("bg_classroom"));
@@ -167,7 +171,7 @@ namespace LLMNpc.EditorTools
                 p("hallway", LoadBgSprite("bg_hallway")); p("cafe", LoadBgSprite("bg_cafe"));
             });
             Wire(gm, p => { p("ui", dialogueUI); p("portrait", portraitController);
-                            p("llm", llm); p("backgroundController", bgCtrl); });
+                            p("llm", llm); p("backgroundController", bgCtrl); p("portraitAnimator", pAnim); });
 
             var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
             EditorSceneManager.MarkSceneDirty(scene);

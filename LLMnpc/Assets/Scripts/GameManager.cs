@@ -12,6 +12,7 @@ namespace LLMNpc
         [SerializeField] PortraitController portrait;
         [SerializeField] LLMClient llm;
         [SerializeField] BackgroundController backgroundController;
+        [SerializeField] PortraitAnimator portraitAnimator;
 
         [Header("설정")]
         [SerializeField] string personaResourceName = "Personas/yuna"; // Resources 기준 경로(확장자 제외)
@@ -75,6 +76,7 @@ namespace LLMNpc
 
             // 출력 (13.12)
             if (portrait != null) portrait.SetEmotion(npc.emotion);
+            if (portraitAnimator != null) portraitAnimator.React(); // 대사 시 살짝 팝
             if (ui != null)
             {
                 ui.ShowNpcLine(persona.name, npc.reply);
