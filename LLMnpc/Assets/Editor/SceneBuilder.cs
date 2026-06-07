@@ -82,6 +82,13 @@ namespace LLMNpc.EditorTools
             portrait.sprite = res.standard;
             portrait.type = Image.Type.Sliced;
             portrait.color = new Color(1f, 1f, 1f, 0.55f); // 플레이스홀더 (스프라이트 넣으면 흰색으로 바뀜)
+            // 드롭섀도(바닥 그라운딩) + 림라이트(외곽 빛) → 배경과 분리, 입체감
+            var pShadow = portraitGO.AddComponent<Shadow>();
+            pShadow.effectColor = new Color(0.02f, 0.02f, 0.06f, 0.40f);
+            pShadow.effectDistance = new Vector2(14, -16);
+            var pRim = portraitGO.AddComponent<Outline>();
+            pRim.effectColor = new Color(1f, 0.97f, 0.90f, 0.40f);
+            pRim.effectDistance = new Vector2(3, 3);
             Label(res, canvasGO, font, "캐릭터 이미지\n(여기에 표정 스프라이트)",
                 new Vector2(360, 60), new Vector2(420, 100), 24,
                 new Color(0.25f, 0.25f, 0.30f), TextAnchor.MiddleCenter);
